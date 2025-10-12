@@ -2383,4 +2383,51 @@ body {
     .menu-text {
         font-size: 11px;
     }
+
+}
+
+.mask-gif-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.mask-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    filter: contrast(1.3) saturate(1.2);
+}
+
+.neon-frame {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid #ff00ff;
+    border-radius: 10px;
+    box-shadow: 
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        inset 0 0 10px #ff00ff;
+    animation: neon-pulse 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.gif-glow {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    background: radial-gradient(circle, rgba(255,0,255,0.4) 0%, transparent 70%);
+    border-radius: 15px;
+    filter: blur(10px);
+    animation: glow-pulse 3s ease-in-out infinite;
+    pointer-events: none;
 }

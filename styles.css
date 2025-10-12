@@ -2252,8 +2252,8 @@ body {
 
 .mask-gif-container {
     position: relative;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin-right: 15px;
     border-radius: 8px;
     overflow: hidden;
@@ -2299,8 +2299,8 @@ body {
 
 @media (max-width: 768px) {
     .mask-gif-container {
-        width: 20px;    /* Еще меньше на планшетах */
-        height: 20px;
+        width: 30px;    /* Еще меньше на планшетах */
+        height: 30px;
         margin-right: 10px;
     }
     
@@ -2322,8 +2322,8 @@ body {
 
 @media (max-width: 480px) {
     .mask-gif-container {
-        width: 20px;    /* Минимальный размер на телефонах */
-        height: 20px;
+        width: 30px;    /* Минимальный размер на телефонах */
+        height: 30px;
         margin-right: 8px;
     }
     
@@ -2363,6 +2363,7 @@ body {
             0 0 15px #ff00ff;
     }
 }
+
 
 
 

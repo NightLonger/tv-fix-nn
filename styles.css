@@ -1780,142 +1780,6 @@ body {
     }
 }
 
-
-/* Контейнер для видео */
-.mask-video-container {
-    position: relative;
-    width: 70px;  /* Небольшой размер */
-    height: 70px;
-    margin-right: 15px; /* Отступ от текста */
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-/* Само видео */
-.mask-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Чтобы видео заполнило контейнер */
-    border-radius: 6px;
-    filter: contrast(1.3) saturate(1.2); /* Усиливаем цвета */
-    transition: all 0.3s ease;
-}
-
-/* Неоновая рамка */
-.neon-frame {
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border: 2px solid #ff00ff;
-    border-radius: 10px;
-    box-shadow: 
-        0 0 10px #ff00ff,
-        0 0 20px #ff00ff,
-        inset 0 0 10px #ff00ff;
-    animation: neon-pulse 2s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* Эффект свечения вокруг */
-.video-glow {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    background: radial-gradient(circle, rgba(255,0,255,0.4) 0%, transparent 70%);
-    border-radius: 15px;
-    filter: blur(10px);
-    animation: glow-pulse 3s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Анимация пульсации рамки */
-@keyframes neon-pulse {
-    0%, 100% { 
-        opacity: 1;
-        box-shadow: 
-            0 0 10px #ff00ff,
-            0 0 20px #ff00ff,
-            inset 0 0 10px #ff00ff;
-    }
-    50% { 
-        opacity: 0.8;
-        box-shadow: 
-            0 0 15px #ff00ff,
-            0 0 30px #ff00ff,
-            inset 0 0 15px #ff00ff;
-    }
-}
-
-/* Анимация свечения */
-@keyframes glow-pulse {
-    0%, 100% { 
-        opacity: 0.6;
-        transform: scale(1);
-    }
-    50% { 
-        opacity: 0.9;
-        transform: scale(1.05);
-    }
-}
-
-/* Эффекты при наведении */
-.mask-video-container:hover .mask-video {
-    filter: contrast(1.5) saturate(1.5) brightness(1.1);
-    transform: scale(1.05);
-}
-
-.mask-video-container:hover .neon-frame {
-    animation-duration: 0.5s;
-    border-color: #00ffff;
-    box-shadow: 
-        0 0 15px #00ffff,
-        0 0 30px #00ffff,
-        inset 0 0 15px #00ffff;
-}
-
-.mask-video-container:hover .video-glow {
-    background: radial-gradient(circle, rgba(0,255,255,0.5) 0%, transparent 70%);
-    animation-duration: 1s;
-}
-
-/* Fallback если видео не загрузится */
-.video-fallback {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #333;
-    color: #ff00ff;
-    font-size: 24px;
-    border-radius: 6px;
-}
-
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .mask-video-container {
-        width: 50px;
-        height: 50px;
-        margin-right: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .mask-video-container {
-        width: 40px;
-        height: 40px;
-        margin-right: 8px;
-    }
-}
-
-
 /* Отдельная секция для кнопок */
 .contacts-section {
     padding: 0px 20px 40px 20px;
@@ -2388,8 +2252,8 @@ body {
 
 .mask-gif-container {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     margin-right: 15px;
     border-radius: 8px;
     overflow: hidden;
@@ -2431,4 +2295,74 @@ body {
     animation: glow-pulse 3s ease-in-out infinite;
     pointer-events: none;
 }
+
+
+@media (max-width: 768px) {
+    .mask-gif-container {
+        width: 20px;    /* Еще меньше на планшетах */
+        height: 20px;
+        margin-right: 10px;
+    }
+    
+    .mask-gif {
+        border-radius: 3px;
+    }
+    
+    .neon-frame {
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        border-width: 1px;
+        box-shadow: 
+            0 0 4px #ff00ff,
+            0 0 8px #ff00ff;
+    }
+}
+
+@media (max-width: 480px) {
+    .mask-gif-container {
+        width: 20px;    /* Минимальный размер на телефонах */
+        height: 20px;
+        margin-right: 8px;
+    }
+    
+    .mask-gif {
+        border-radius: 2px;
+    }
+    
+    .neon-frame {
+        border-width: 1px;
+        box-shadow: 
+            0 0 3px #ff00ff,
+            0 0 6px #ff00ff;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 360px) {
+    .mask-gif-container {
+        width: 35px;
+        height: 35px;
+        margin-right: 6px;
+    }
+}
+
+/* Анимации (если еще нет в CSS) */
+@keyframes neon-pulse {
+    0%, 100% { 
+        opacity: 1;
+        box-shadow: 
+            0 0 5px #ff00ff,
+            0 0 10px #ff00ff;
+    }
+    50% { 
+        opacity: 0.8;
+        box-shadow: 
+            0 0 8px #ff00ff,
+            0 0 15px #ff00ff;
+    }
+}
+
+
 

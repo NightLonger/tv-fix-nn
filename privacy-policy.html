@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Политика конфиденциальности | TV-FIX</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .policy-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .policy-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--neon-pink);
+        }
+
+        .policy-title {
+            color: var(--neon-cyan);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .policy-subtitle {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .policy-content {
+            color: var(--text-white);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .policy-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(17, 17, 17, 0.6);
+            border-radius: 6px;
+            border-left: 3px solid var(--neon-pink);
+        }
+
+        .section-title {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .policy-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .policy-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .policy-list li::before {
+            content: '▸';
+            color: var(--neon-cyan);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--neon-pink);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        @media (max-width: 768px) {
+            .policy-container {
+                padding: 20px 15px;
+                margin: 10px;
+            }
+            
+            .policy-title {
+                font-size: 1.5rem;
+            }
+            
+            .policy-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas для фона города -->
+    <canvas id="cityBackground" class="city-background"></canvas>
+    <canvas id="matrixRain" class="matrix-rain"></canvas>
+
+    <div class="content-wrapper">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-glitch" id="mainLogo">
+                    <div class="vhs-top">
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="logo-content">
+                        <span class="logo-text-glitch" data-text="TV">TV</span>
+                        <span class="neon-divider pulse">⟐</span>
+                        <span class="logo-text-glitch" data-text="FIX">FIX</span>            
+                    </div>
+                    <div class="vhs-bottom">
+                        <div class="static-noise"></div>
+                    </div>
+                    <div class="glitch-overlay"></div>
+                </div>
+                <div class="logo-tagline"></div>
+            </div>
+
+            <nav class="nav">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/#services" class="nav-link">Услуги</a>
+                <a href="/#prices" class="nav-link">Цены</a>
+            </nav>
+        </header>
+
+        <!-- Основной контент -->
+        <main style="min-height: 100vh; padding: 20px;">
+            <div class="policy-container">
+                <div class="policy-header">
+                    <h1 class="policy-title">Политика конфиденциальности</h1>
+                    <div class="policy-subtitle">TV-FIX | Ремонт телевизоров в Нижнем Новгороде</div>
+                </div>
+
+                <div class="policy-content">
+                    <div class="policy-section">
+                        <p>Настоящая Политика конфиденциальности является составной частью Пользовательского соглашения Сайта и действует в отношении всей информации, в том числе персональных данных Пользователя, получаемых Администрацией Сайта в процессе работы Пользователя с Сайтом, исполнения Пользовательского соглашения и соглашений между Администрацией сайта и Пользователем. Использование Сайта означает безоговорочное согласие Пользователя с настоящей Политикой конфиденциальности и указанными в ней условиями обработки его персональных данных; в случае несогласия с этими условиями Пользователь должен воздержаться от использования Сайта.</p>
+                        <p>Перед использованием Сайта Пользователю необходимо внимательно изучить настоящую Политику конфиденциальности.</p>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2 class="section-title">Персональные данные</h2>
+                        <ol class="policy-list">
+                            <li>Предоставление в любой форме (регистрация на Сайте, осуществление заказов, подписка на рекламные рассылки и тд.) своих персональных данных Администрации сайта, Пользователь выражает согласие на обработку персональных данных Администрацией сайта в соответствии с Федеральным законом "О персональных данных" от 27.07.2006 №152-ФЗ.</li>
+                            <li>Обработка персональных данных осуществляется в целях исполнения Пользовательского соглашения и иных соглашений между Администрацией сайта и Пользователем.</li>
+                            <li>Обработка персональных данных производится исключительно на территории Российской Федерации, с соблюдением действующего законодательства Российской Федерации.</li>
+                            <li>Согласие Пользователя на обработку его персональных данных дается Администрации сайта на срок исполнения обязательств между Пользователем и Администрацией сайта в рамках Пользовательского соглашения или других соглашений между Пользователем и Администрацией сайта.</li>
+                            <li>В случае отзыва согласия на обработку персональных данных Пользователя, Пользователь уведомляет об этом Администрацию Сайта письменно или по электронной почте. После получения данного уведомления Администрация Сайта прекращает обработку персональных данных Пользователя и удаляет.</li>
+                            <li>Сайт не имеет статуса оператора персональных данных. Персональные данные Пользователя не передаются каким-либо третьим лицам, за исключением случаев, прямо предусмотренных настоящей Политикой конфиденциальности.</li>
+                        </ol>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2 class="section-title">Меры по защите персональных данных</h2>
+                        <ol class="policy-list">
+                            <li>В своей деятельности Администрация сайта руководствуется Федеральным законом "О персональных данных" от 27.07.2006 №152-ФЗ.</li>
+                            <li>Администрация сайта принимает все разумные меры по защите персональных данных Пользователей и соблюдает права субъектов персональных данных, установленные действующим законодательством Российской Федерации.</li>
+                            <li>Защита персональных данных Пользователя осуществляется с использованием физических, технических и административных мероприятий, нацеленных на предотвращение риска потери, неправильного использования, несанкционированного доступа, нарушения конфиденциальности и изменения данных. Меры обеспечения безопасности включают в себя межсетевую защиту и шифрование данных, контроль физического доступа к центрам обработки данных, а также контроль полномочий на доступ к данным.</li>
+                        </ol>
+                    </div>
+
+                    <div class="policy-section">
+                        <h2 class="section-title">Изменение политики конфиденциальности</h2>
+                        <ol class="policy-list">
+                            <li>Администрация сайта оставляет за собой право в одностороннем порядке вносить любые изменения в Политику конфиденциальности без предварительного уведомления Пользователя. Актуальный текст Политики конфиденциальности размещен на данной странице.</li>
+                        </ol>
+                    </div>
+
+                    <a href="/" class="back-link">← Вернуться на главную</a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Подвал -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="/privacy-policy.html" class="footer-link">Политика конфиденциальности</a>
+                        <span class="footer-separator">|</span>
+                        <a href="/personal-data.html" class="footer-link">Пользовательское соглашение</a>
+                    </div>
+                    <div class="footer-copyright">
+                        <span class="copyright-text">© 2024 TV-FIX. Ремонт телевизоров в Нижнем Новгороде</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Подключение скриптов -->
+    <script src="scripts/yandex-metrica.js"></script>
+    <script src="scripts/metrics-config.js"></script>
+    <script src="scripts/goals.js"></script>
+    <script src="script.js"></script>
+    <script src="background.js"></script>
+    <script src="matrix-rain.js"></script>
+</body>
+</html>

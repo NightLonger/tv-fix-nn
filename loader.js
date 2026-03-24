@@ -7,8 +7,7 @@ class TVDiagnosticLoader {
         this.beepSound = null;
         this.stages = [
             this.stage1.bind(this),
-            this.stage2.bind(this),
-            this.stage3.bind(this)
+            this.stage2.bind(this)
         ];
         this.currentStage = 0;
         this.isSkipped = false;
@@ -73,30 +72,17 @@ class TVDiagnosticLoader {
     showTestPattern() {
         // Показываем экран диагностики с цветными полосами
         this.testScreen.style.display = 'block';
-        this.playBeep(2000); // Длинный писк при появлении
+        this.playBeep(1500); // Укороченный писк при появлении
     }
 
     startSequence() {
         setTimeout(() => {
             this.stages[0]();
-        }, 1000);
+        }, 800); // Уменьшена задержка старта
     }
 
     stage1() {
-        this.playBeep(100);
-        const text = `
-СИСТЕМНЫЙ ТЕСТ...
-ПРОВЕРКА ПАМЯТИ: ВЫПОЛНЕНА
-АНАЛИЗ СИГНАЛА: УСПЕШНО
-СИНХРОНИЗАЦИЯ: УСТАНОВЛЕНА
-        `;
-        this.typeText(text, () => {
-            setTimeout(() => this.nextStage(), 1000);
-        });
-    }
-
-    stage2() {
-        this.playBeep(100);
+        this.playBeep(80);
         const text = `
 СКАНИРОВАНИЕ...
 ОБНАРУЖЕН ТЕЛЕВИЗОР
@@ -104,15 +90,15 @@ class TVDiagnosticLoader {
 АВТОМАТИЧЕСКОЕ ПЕРЕНАПРАВЛЕНИЕ...
         `;
         this.typeText(text, () => {
-            setTimeout(() => this.nextStage(), 1000);
+            setTimeout(() => this.nextStage(), 600); // Уменьшена задержка
         });
     }
 
-    stage3() {
-        this.playBeep(150);
+    stage2() {
+        this.playBeep(120);
         const text = `
 ПОДКЛЮЧЕНИЕ К СЕРВИСУ...
-TV-REPAIR NN
+NOONFIX
 ГОТОВ К ПРИЕМУ ЗАЯВОК
 
 >>> НАЖМИТЕ ЛЮБУЮ КЛАВИШУ <<<
@@ -147,11 +133,11 @@ TV-REPAIR NN
             if (currentChar < lines[currentLine].length) {
                 lineElement.textContent += lines[currentLine][currentChar];
                 currentChar++;
-                setTimeout(typeLine, 30);
+                setTimeout(typeLine, 25); // Увеличена скорость печати
             } else {
                 currentLine++;
                 currentChar = 0;
-                setTimeout(typeLine, 100);
+                setTimeout(typeLine, 80); // Уменьшена задержка между строками
             }
         };
 

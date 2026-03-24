@@ -1,0 +1,864 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+:root {
+    --neon-pink: #FF00FF;
+    --neon-cyan: #00FFFF;
+    --neon-green: #00FF00;
+    --dark-bg: #1A1A1A;
+    --darker-bg: #111111;
+    --text-white: #FFFFFF;
+    --text-gray: #CCCCCC;
+}
+
+/* Базовые сбросы */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--darker-bg);
+    color: var(--text-white);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    line-height: 1.6;
+}
+
+/* Секция сканера */
+.scanner-section {
+    padding: 80px 20px;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+}
+
+.scanner-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+/* Заголовок */
+.scanner-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.scanner-title {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 1.75rem;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text-white);
+    text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px rgba(0,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    line-height: 1.3;
+    animation: title-glitch 5s infinite;
+}
+
+.scanner-title-icon {
+    font-size: 1.5rem;
+    animation: icon-pulse 2.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px var(--neon-cyan));
+}
+
+.scanner-subtitle {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    line-height: 1.6;
+    opacity: 0.7;
+}
+
+/* Карточка сканера — убрано внутреннее свечение */
+.scanner-card {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* Только внешняя граница при наведении, без изменения фона */
+.scanner-card:hover {
+    border: 1px solid rgba(255, 0, 255, 0.5);
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Скан-линия поверх карточки (оставляем для стиля) */
+.scanner-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    animation: scan 3s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Шаг */
+.sc-step {
+    padding: 26px 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.sc-step-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.sc-num {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan);
+    letter-spacing: 1px;
+    opacity: 0.8;
+    flex-shrink: 0;
+}
+
+.sc-label-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.sc-hint {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    color: #666;
+    text-transform: none;
+    margin-left: auto;
+}
+
+/* Разделитель */
+.sc-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    position: relative;
+    z-index: 1;
+    margin: 0 30px;
+}
+
+/* Поле ввода с автодополнением */
+.sc-autocomplete-wrap {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+.sc-autocomplete-input {
+    width: 100%;
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: var(--text-white);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    caret-color: var(--neon-cyan);
+}
+
+.sc-autocomplete-input::placeholder { 
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.sc-autocomplete-input:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5),
+                inset 0 0 5px rgba(0, 255, 255, 0.2);
+    background: rgba(35, 35, 35, 0.9);
+}
+
+.sc-autocomplete-input.has-value {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    text-shadow: 0 0 6px rgba(0,255,255,0.4);
+}
+
+/* Дропдаун */
+.sc-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 0 0 6px 6px;
+    border-top: none;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.sc-dropdown.open { display: block; }
+
+.sc-dropdown::-webkit-scrollbar { width: 4px; }
+.sc-dropdown::-webkit-scrollbar-track { background: transparent; }
+.sc-dropdown::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 2px; }
+
+.sc-dropdown-item {
+    padding: 10px 16px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    letter-spacing: 0.5px;
+}
+
+.sc-dropdown-item:last-child { border-bottom: none; }
+
+.sc-dropdown-item:hover,
+.sc-dropdown-item.highlighted {
+    background: rgba(255, 0, 255, 0.1);
+    color: var(--neon-pink);
+    padding-left: 22px;
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+.sc-dropdown-item mark {
+    background: transparent;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 6px var(--neon-cyan);
+    font-weight: bold;
+}
+
+/* Быстрые бренды */
+.sc-quick-brands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sc-quick-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--text-gray);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.sc-quick-btn:hover {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 255, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.sc-quick-btn.active {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 255, 0.1);
+    text-shadow: 0 0 8px var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Кнопки выбора (диагональ / возраст) */
+.sc-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sc-opt {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--text-gray);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    outline: none;
+}
+
+.sc-opt:hover {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 255, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.sc-opt.selected {
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+    background: rgba(0, 255, 255, 0.1);
+    text-shadow: 0 0 8px var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Чипы симптомов */
+.sc-symptoms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.sc-chip { 
+    display: flex; 
+    cursor: pointer; 
+}
+
+.sc-chip input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sc-chip-body {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 9px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--text-gray);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    line-height: 1.3;
+}
+
+.sc-chip-body::before {
+    content: '□';
+    margin-right: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.sc-chip input:checked + .sc-chip-body {
+    border-color: var(--neon-pink);
+    color: var(--text-white);
+    background: rgba(255, 0, 255, 0.08);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+}
+
+.sc-chip input:checked + .sc-chip-body::before {
+    content: '■';
+    color: var(--neon-pink);
+    text-shadow: 0 0 6px var(--neon-pink);
+}
+
+.sc-chip:hover .sc-chip-body {
+    border-color: var(--neon-pink);
+    transform: translateY(-2px);
+}
+
+/* Блок предварительной оценки */
+.sc-estimate {
+    display: none;
+    margin-top: 10px;
+    border: 1px solid var(--neon-cyan);
+    border-radius: 6px;
+    background: rgba(0, 255, 255, 0.05);
+    padding: 18px 20px 14px;
+    animation: sc-estimate-in 0.35s ease;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.sc-estimate.visible { display: block; }
+
+@keyframes sc-estimate-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
+
+.sc-estimate-header {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--neon-cyan);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+.sc-estimate-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sc-estimate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sc-estimate-row:last-child { 
+    border-bottom: none; 
+    padding-bottom: 0;
+}
+
+.sc-estimate-key {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    letter-spacing: 0.5px;
+}
+
+.sc-estimate-val {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-white);
+    text-align: right;
+}
+
+.sc-estimate-price {
+    font-size: 1.2rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+    letter-spacing: 1px;
+}
+
+.sc-estimate-free {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--neon-green);
+    text-shadow: 0 0 8px var(--neon-green);
+}
+
+.sc-estimate-note {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.65rem;
+    color: #666;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* Поля контактов */
+.sc-contact-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.sc-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.sc-field-label {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--text-gray);
+    text-transform: uppercase;
+}
+
+.sc-input {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: var(--text-white);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    caret-color: var(--neon-cyan);
+}
+
+.sc-input::placeholder { 
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.82rem;
+}
+
+.sc-input:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5),
+                inset 0 0 5px rgba(0, 255, 255, 0.2);
+    background: rgba(35, 35, 35, 0.9);
+}
+
+.sc-input.valid {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.sc-input.invalid {
+    border-color: #ff4444;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+/* Согласие */
+.sc-agree {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.sc-agree input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sc-agree-box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--neon-cyan);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: rgba(30, 30, 30, 0.9);
+}
+
+.sc-agree input:checked + .sc-agree-box {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.sc-agree input:checked + .sc-agree-box::after { 
+    content: '✓';
+    color: #000;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.sc-agree-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+.sc-agree-text a {
+    color: var(--neon-cyan);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sc-agree-text a:hover { 
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+/* Кнопка отправки */
+.sc-submit-wrap {
+    padding: 22px 30px 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.sc-submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+    border: 2px solid var(--neon-green);
+    border-radius: 6px;
+    color: var(--neon-green);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-shadow: 0 0 8px var(--neon-green);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Градиентная граница при ховере */
+.sc-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan), var(--neon-green));
+    border-radius: 8px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(10px);
+}
+
+.sc-submit-btn:not(:disabled):hover::before {
+    opacity: 0.7;
+}
+
+.sc-submit-btn:not(:disabled):hover {
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2));
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    border-color: var(--neon-cyan);
+}
+
+.sc-submit-btn:not(:disabled):active {
+    transform: translateY(0);
+}
+
+.sc-submit-btn:disabled {
+    border-color: #333;
+    color: #444;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.sc-submit-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 5px var(--neon-green));
+}
+
+.sc-submit-btn:not(:disabled):hover .sc-submit-arrow {
+    transform: translateX(6px);
+}
+
+/* Состояние загрузки */
+.sc-submit-btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.sc-submit-btn.loading .sc-submit-text::after {
+    content: '';
+    animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+    100% { content: ''; }
+}
+
+.sc-submit-note {
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+/* Анимации */
+@keyframes scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes icon-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 10px var(--neon-cyan));
+    }
+    50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px var(--neon-pink));
+    }
+}
+
+@keyframes title-glitch {
+    0%, 95%, 100% { 
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    96%, 98% { 
+        transform: translate(-2px, 1px);
+        opacity: 0.8;
+    }
+    97%, 99% { 
+        transform: translate(2px, -1px);
+        opacity: 0.8;
+    }
+}
+
+/* Адаптив: планшет */
+@media (max-width: 768px) {
+    .scanner-section { padding: 50px 14px; }
+
+    .scanner-title {
+        font-size: 1.4rem;
+        letter-spacing: 3px;
+    }
+
+    .sc-step { padding: 20px 18px; }
+    .sc-divider { margin: 0 18px; }
+
+    .sc-contact-fields { 
+        grid-template-columns: 1fr; 
+        gap: 12px; 
+    }
+
+    .sc-symptoms-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .sc-submit-wrap { padding: 18px 18px 20px; }
+
+    .sc-submit-btn {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        padding: 16px 18px;
+    }
+}
+
+/* Адаптив: мобильный */
+@media (max-width: 480px) {
+    .scanner-section { padding: 40px 10px; }
+
+    .scanner-title {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        gap: 8px;
+    }
+
+    .scanner-subtitle { font-size: 0.75rem; }
+
+    .sc-step { padding: 16px 14px; }
+    .sc-divider { margin: 0 14px; }
+
+    .sc-symptoms-grid { 
+        grid-template-columns: 1fr; 
+    }
+
+    .sc-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .sc-opt { 
+        text-align: center;
+        padding: 8px 12px;
+    }
+
+    .sc-quick-brands {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .sc-quick-btn { 
+        text-align: center; 
+        padding: 8px 4px; 
+        font-size: 0.7rem; 
+    }
+
+    .sc-submit-wrap { padding: 14px 14px 18px; }
+
+    .sc-submit-btn {
+        font-size: 0.8rem;
+        letter-spacing: 1.5px;
+        padding: 14px 12px;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .sc-submit-arrow { display: none; }
+
+    .sc-estimate-price { font-size: 1rem; }
+
+    .sc-estimate-row { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 4px; 
+    }
+    .sc-estimate-val { text-align: left; }
+}
+
+/* Оптимизация для слабых устройств */
+@media (max-width: 768px) and (pointer: coarse) {
+    .scanner-card,
+    .sc-dropdown,
+    .sc-chip-body,
+    .sc-input,
+    .sc-submit-btn {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}
+
+/* Уважаем системную настройку "уменьшить движение" */
+@media (prefers-reduced-motion: reduce) {
+    .scanner-title,
+    .scanner-card::after,
+    .scanner-card::before,
+    .sc-chip-body,
+    .sc-opt,
+    .sc-quick-btn,
+    .sc-submit-btn {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .scanner-card:hover {
+        transform: none !important;
+    }
+}
